@@ -8,7 +8,7 @@ _Employee data (Name, Age, Race, etc.)
 _Organizational data (Department name, date of engagement (i.e. date of hire), performance data, etc.)
 _Actions (Promotions, hire, etc.)
 
-Though a few dataset are available on line I thought that it could be usefull to create a syntetic dataset creator. 
+Though a few dataset are available on-line I thought that it could be usefull to develop a syntetic dataset creator. 
 
 ## Syntetic HR data creator
 
