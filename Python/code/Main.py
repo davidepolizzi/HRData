@@ -18,8 +18,8 @@ Perf.LogDuration(start_time,'ResetDB')
 
 start_time = timer()
 ce.makeEmp(cg.totEmp)    
-Perf.LogDuration(start_time,'CreateEmp', Config.totEmp)
+Perf.LogDuration(start_time,'CreateEmp', cg.totEmp)
 
 start_time = timer()
 ac.GenerateAttrition('2')
-Perf.LogDuration(start_time,'ActionCreation', Config.periods)
+Perf.LogDuration(start_time,'ActionCreation', cg.periods)

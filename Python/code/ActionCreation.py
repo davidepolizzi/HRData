@@ -19,8 +19,9 @@ def GenerateAttrition(dum):
         for e in range(int(cg.totEmp *  cg.pctChange)):   
             termDt = ce.makeDate(cg.dtStart + datetime.timedelta(days=180) + datetime.timedelta(days=365 * p), 90)
             tEmp = co.execute('SELECT EmpID, EngDt FROM tbl_Employee ORDER by random() LIMIT 1').fetchone()
-            if termDt > tEmp[1]:
+            if termDt > datetime.datetime.strptime(tEmp[1], '%Y-%m-%d %H:%M:%S'):
                 co.execute('UPDATE tbl_Employee SET TermDt = ? WHERE EmpID = ?',(termDt,tEmp[0]))
+                co.execute("INSERT INTO tbl_Action ('ActionID','EmpID','EffectiveDt') VALUES (90,?,?)",(tEmp[0],termDt))
                 connOut.commit()
     connOut.close()
     connIn.close()
