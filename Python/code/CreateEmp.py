@@ -12,7 +12,7 @@ co = connOut.cursor()
 upper_alphabet = string.ascii_uppercase
 
 def makeEmp(numEmp = 15, dtStart = datetime.datetime(2015, 1, 1)):
-    
+    EmpID  = co.execute("SELECT Seq FROM sqlite_sequence WHERE name = 'tbl_Employee'").fetchone()[0]
     for i in range(numEmp):
         GenderID = random.choice([0, 1])
         last_name = ci.execute('SELECT lastname FROM tbl_LastName ORDER by random() LIMIT 1').fetchone()[0]
@@ -31,16 +31,18 @@ def makeEmp(numEmp = 15, dtStart = datetime.datetime(2015, 1, 1)):
         depID = random.randint(1,DepCount)
         
         RaceID = random.randint(1,5)
-        
-        vals = (EmpName, GenderID, EngDt, DOB, depID, RaceID)
-        co.execute("INSERT INTO  tbl_Employee ('EmpName','GenderID', 'EngDt','DOB','depID','RaceID') VALUES (?,?,?,?,?,?)", vals)
+        EmpID  = co.execute("SELECT Seq FROM sqlite_sequence WHERE name = 'tbl_Employee'").fetchone()[0] + 1 
+        vals = (EmpID, EmpName, GenderID, EngDt, DOB, depID, RaceID)
+        co.execute("INSERT INTO  tbl_Employee ('EmpID','EmpName','GenderID', 'EngDt','DOB','depID','RaceID') VALUES (?,?,?,?,?,?,?)", vals)
+        co.execute("INSERT INTO  tbl_Action ('ActionID','EmpId', 'EffectiveDt') VALUES (10,?,?)", (vals[0],vals[3]))
         connOut.commit()
     
     makeStructure(DepCount)
     connOut.close()
     connIn.close()
     print('Loaded ' + str(numEmp) + ' employees')
-def makeDate(myDate, dtDayDev, dtMin = datetime.datetime(1900, 1, 1), dtMax=datetime.datetime(9999, 12, 31)):
+#def makeDate(myDate, dtDayDev, dtMin = datetime.datetime(1900, 1, 1), dtMax=datetime.datetime(9999, 12, 31)):
+def makeDate(myDate, dtDayDev, dtMin = datetime.date(1900, 1, 1), dtMax=datetime.date(9999, 12, 31)):
     days_to_add = round(np.random.normal(loc = 0, scale = dtDayDev))
     result = myDate + datetime.timedelta(days = days_to_add)
     result = max(dtMin, result)

@@ -11,6 +11,7 @@ import Perf
 import ResetDB
 from timeit import default_timer as timer
 import Config as cg
+import datetime
 
 start_time = timer()
 ResetDB.reset()
@@ -21,5 +22,7 @@ ce.makeEmp(cg.totEmp)
 Perf.LogDuration(start_time,'CreateEmp', cg.totEmp)
 
 start_time = timer()
-ac.GenerateAttrition('2')
+for p in range(cg.periods):
+    ac.GenerateRating(cg.dtStart.year + p)
+    ac.GenerateAttrition(cg.dtStart.year + p)
 Perf.LogDuration(start_time,'ActionCreation', cg.periods)

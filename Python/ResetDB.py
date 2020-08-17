@@ -15,6 +15,8 @@ co = connOut.cursor()
 def reset(bolAll = False):
     co.execute('DELETE FROM tbl_Employee')
     co.execute('DELETE FROM tbl_Action')
+    co.execute('DELETE FROM tbl_Perf')
     co.execute('UPDATE sqlite_sequence SET seq = 0')
     connOut.commit()
     connOut.close()
+    print('File reset complete')
