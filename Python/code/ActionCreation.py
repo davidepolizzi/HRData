@@ -21,7 +21,7 @@ def GenerateAttrition(fdyear):
         #sets the termination date with a random date +-3 months from the period it refers to. Starting from June.
         termDt = ce.makeDate(datetime.date(fdyear,6,30), 90)
         tEmp = co.execute('SELECT EmpID, EngDt FROM tbl_Employee ORDER by random() LIMIT 1').fetchone()
-        if termDt > datetime.datetime.strptime(tEmp[1], '%Y-%m-%d %H:%M:%S').date():
+        if termDt > datetime.datetime.strptime(tEmp[1], '%Y-%m-%d').date():
             co.execute('UPDATE tbl_Employee SET TermDt = ?, EmpStatus = 0 WHERE EmpID = ?',(termDt,tEmp[0]))
             co.execute("INSERT INTO tbl_Action ('ActionID','EmpID','EffectiveDt') VALUES (?,?,?)",(random.choice([90,91]) ,tEmp[0],termDt))
             connOut.commit()

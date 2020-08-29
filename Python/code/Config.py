@@ -6,9 +6,9 @@ Created on Sat Aug 15 21:13:16 2020
 """
 import datetime
 
-dtStart = datetime.datetime(2015, 1, 1)
-totEmp = 300
+dtStart = datetime.date(2015, 1, 1)
+totEmp = int(input('Tot Emps: '))
 pctChange = 0.05
-periods = 2
+periods = int(input('Periods: '))
 bolGenderBias = False
 bolRaceBias = False

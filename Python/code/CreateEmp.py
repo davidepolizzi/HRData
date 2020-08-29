@@ -1,9 +1,9 @@
 import sqlite3 as lite
-#import pandas as pd
 import random
 import string
 import numpy as np
 import datetime
+from dateutil.relativedelta import relativedelta
 
 connIn = lite.connect('../data/Setting.db')
 connOut = lite.connect('../output/HRData.db')
@@ -23,16 +23,13 @@ def makeEmp(numEmp = 15, dtStart = datetime.datetime(2015, 1, 1)):
         
         EmpName = last_name + ', ' + first_name + ' ' + random.choice(upper_alphabet)
         
-        EngDt = makeDate(dtStart,300,dtStart, dtStart + datetime.timedelta(days=547))
-        
-        DOB = min(EngDt - datetime.timedelta(days=6574), EngDt + datetime.timedelta(days= round(np.random.normal(loc = -14600, scale = 3287))))
-        
+        EngDt = makeDate(dtStart,300,dtStart, dtStart + relativedelta(months=+18))
         DepCount = min(round(numEmp/30),10)
         depID = random.randint(1,DepCount)
-        
+        DOB = makeDate(EngDt- relativedelta(years=38), 3652, EngDt - relativedelta(years=63), EngDt - relativedelta(years=18))
         RaceID = random.randint(1,5)
         EmpID  = co.execute("SELECT Seq FROM sqlite_sequence WHERE name = 'tbl_Employee'").fetchone()[0] + 1 
-        vals = (EmpID, EmpName, GenderID, EngDt, DOB, depID, RaceID)
+        vals = (EmpID, EmpName, GenderID, EngDt.date(), DOB.date(), depID, RaceID)
         co.execute("INSERT INTO  tbl_Employee ('EmpID','EmpName','GenderID', 'EngDt','DOB','depID','RaceID') VALUES (?,?,?,?,?,?,?)", vals)
         co.execute("INSERT INTO  tbl_Action ('ActionID','EmpId', 'EffectiveDt') VALUES (10,?,?)", (vals[0],vals[3]))
         connOut.commit()
@@ -41,14 +38,15 @@ def makeEmp(numEmp = 15, dtStart = datetime.datetime(2015, 1, 1)):
     connOut.close()
     connIn.close()
     print('Loaded ' + str(numEmp) + ' employees')
-#def makeDate(myDate, dtDayDev, dtMin = datetime.datetime(1900, 1, 1), dtMax=datetime.datetime(9999, 12, 31)):
+
 def makeDate(myDate, dtDayDev, dtMin = datetime.date(1900, 1, 1), dtMax=datetime.date(9999, 12, 31)):
     days_to_add = round(np.random.normal(loc = 0, scale = dtDayDev))
-    result = myDate + datetime.timedelta(days = days_to_add)
+    result = myDate + relativedelta(days=+days_to_add) 
     result = max(dtMin, result)
     result = min(dtMax, result)
     return result
-
+    
+    
 def makeStructure(DepCount1):
     for i in range(1,DepCount1+1):
         L1 = co.execute('SELECT EmpID FROM tbl_Employee WHERE depID =? ORDER by random() LIMIT 1', [i]).fetchone()[0]
