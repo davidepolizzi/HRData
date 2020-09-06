@@ -11,8 +11,11 @@ import Perf
 import ResetDB
 from timeit import default_timer as timer
 import Config as cg
+import GUI
 
 start_time = timer()
+GUI.StartGUI()
+
 ResetDB.reset()
 Perf.LogDuration(start_time,'ResetDB')
 
