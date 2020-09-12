@@ -10,6 +10,6 @@ dtStart = datetime.date(2015, 1, 1)
 #totEmp = int(input('Tot Emps: '))
 totEmp = 1000
 pctChange = 0.05
-periods = int(input('Periods: '))
+periods = 2 #int(input('Periods: '))
 bolGenderBias = False
 bolRaceBias = False

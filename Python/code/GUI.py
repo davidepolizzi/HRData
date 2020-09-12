@@ -7,68 +7,52 @@ Created on Sun Sep  6 20:56:43 2020
 import tkinter as tk
 import Config as cg
 
-#def StartGUI():
-    
-window = tk.Tk()
-window.title("Set parameters for app.")
-window.geometry('400x500')
-
-txtEmp = tk.StringVar()
-txtPeriod = tk.StringVar()
-bolGenBias = []
-
-widgets = [[0,txtEmp,'Total Employees: ',(1000,10000,500.0),'spin'],
-           [1,txtPeriod,'Total Periods: ',(3,10,1),'spin'],
-           [2,bolGenBias,'Gender Bias: ',True,'bol']]
-
-def add_widget(wid):
-    if wid[-1] == 'entry':
-        tk.Label(master = window, text = wid[2]).grid(row = wid[0])
-        temp = tk.Entry(master = window, textvariable=wid[2])
-        temp.grid(row = wid[0], column=1)
-        temp.insert(0, wid[3])
-    if wid[-1] == 'spin':
-        tk.Label(master = window, text = wid[2]).grid(row = wid[0])
-        temp = tk.Spinbox(master = window, textvariable=wid[2], from_=wid[3][0], to_=wid[3][1], increment=wid[3][2])
-        temp.grid(row = wid[0], column=1)
-        #temp.insert(0, wid[3])
-for w in widgets:
-    add_widget(w)
-
-print(txtEmp.get())
-# txtEmp = []
-# txtPeriod = []
-# widgets = [[txtEmp, 'Total Employees: ','1000',''],
-#            [txtPeriod, 'Total Periods: ','2','']]
-
-# widgets = [['Total Employees: ','1000', 'entry'],
-#            ['Total Periods: ','2', 'entry'],
-#            ['Bias: ',True,'bol']]
-
-# def add_widgets:
+def StartGUI():
         
+    window = tk.Tk()
+    window.title("Set parameters for app.")
+    window.geometry('400x500')
     
-# # print(widgets)
-# tk.Label(master=window, )
-# myCount = 1
-# for w in widgets:
-#     tk.Label(master = window, text = w[1]).grid(row = myCount)
-#     w[3] = tk.Entry(master = window).grid(row = myCount, column=1)
-#     myCount +=1
-
-# print(widgets)
-
-# lblEmp = tk.Label(master = window, text= 'Total Employees: ', anchor="w").grid(row=0, column=0)
-# txtEmp = tk.Entry(master = window).grid(row=0, column=1)
-
-#txtEmp.insert(0,'1250')
-# txtEmp.pack()
-
-#cg.totEmp = int(txtEmp.get())
-
-#frame2.pack()
-window.mainloop()
-
-# print(cg.totEmp)
-# print(cg.dtStart)
+    txtEmp = tk.IntVar()
+    txtPeriod = tk.IntVar()
+    bolGenBias = tk.BooleanVar()
+    
+    def Submit_Button():
+        cg.periods = int(txtPeriod.get())
+        cg.totEmp = int(txtEmp.get())
+        cg.bolGenderBias = bool(bolGenBias.get())
+        print('submitte')
+        print(cg.totEmp)
+        #window.withdraw()
+        window.quit()
+        #window.destroy()
+    widgets = ([0,txtEmp,'Total Employees: ',(1000,10000,500.0),'spin'],
+               [1,txtPeriod,'Total Periods: ',(3,10,1),'spin'],
+               [2,bolGenBias,'Gender Bias: ',True,'check'],
+               [3,Submit_Button,'Submit','','button'])
+    
+    def add_widget(wid):
+        if wid[-1] == 'entry':
+            tk.Label(master = window, text = wid[2]).grid(row = wid[0],sticky=tk.W)
+            temp = tk.Entry(master = window, textvariable=wid[1])
+            temp.grid(row = wid[0], column=1,sticky=tk.W)
+            temp.insert(0, wid[3])
+        elif wid[-1] == 'spin':
+            tk.Label(master = window, text = wid[2]).grid(row = wid[0], sticky=tk.W)
+            temp = tk.Spinbox(master = window, textvariable=wid[1], from_=wid[3][0], to_=wid[3][1], increment=wid[3][2])
+            temp.grid(row = wid[0], column=1,sticky=tk.W)
+            #print(wid[1].get())
+        elif  wid[-1] == 'check':
+            tk.Label(master = window, text = wid[2]).grid(row = wid[0],sticky=tk.W)
+            temp = tk.Checkbutton(master = window, variable=wid[1])
+            temp.grid(row = wid[0], column=1,sticky=tk.W)
+        elif wid[-1] == 'button':
+            tk.Button(master = window, text = wid[2], command = wid[1]).grid(row = wid[0], sticky=tk.W)
+        else:
+            print('one entry not recognized')
+    
+    for w in widgets:
+        add_widget(w)
+    
+    window.mainloop()
 
