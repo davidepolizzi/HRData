@@ -21,11 +21,10 @@ def StartGUI():
         cg.periods = int(txtPeriod.get())
         cg.totEmp = int(txtEmp.get())
         cg.bolGenderBias = bool(bolGenBias.get())
-        print('submitte')
-        print(cg.totEmp)
+
         #window.withdraw()
-        window.quit()
-        #window.destroy()
+
+       
     widgets = ([0,txtEmp,'Total Employees: ',(1000,10000,500.0),'spin'],
                [1,txtPeriod,'Total Periods: ',(3,10,1),'spin'],
                [2,bolGenBias,'Gender Bias: ',True,'check'],
@@ -55,4 +54,6 @@ def StartGUI():
         add_widget(w)
     
     window.mainloop()
-
+    window.quit()
+   # window.destroy()
+   # window.withdraw()
