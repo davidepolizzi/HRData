@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UF 
    Caption         =   "HR Data Parameters"
-   ClientHeight    =   5865
-   ClientLeft      =   120
-   ClientTop       =   465
-   ClientWidth     =   10770
+   ClientHeight    =   8175
+   ClientLeft      =   180
+   ClientTop       =   708
+   ClientWidth     =   13776
    OleObjectBlob   =   "UF.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -25,10 +25,21 @@ cb_Race = False
 End Sub
 
 Private Sub btn_Submit_Click()
+Dim dbltimer As Double
+dbltimer = Timer()
 Call InitialSetUp.SetParameters
+
 Me.Hide
+
 InitialSetUp.Main
+MsgBox "Done data creation. Time elapsed: " & Timer() - dbltimer
+Sheet4.Activate
+
+If UF.cb_Export Then UFExport.Show
+
 End Sub
+
+
 
 Private Sub spn_Change_Change()
 txt_Change.Value = (spn_Change.Value / 1)

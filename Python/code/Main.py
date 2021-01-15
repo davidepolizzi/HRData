@@ -14,7 +14,7 @@ import Config as cg
 import GUI
 
 start_time = timer()
-GUI.StartGUI()
+# GUI.StartGUI()
 
 ResetDB.reset()
 Perf.LogDuration(start_time,'ResetDB')

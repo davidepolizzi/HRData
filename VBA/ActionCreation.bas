@@ -21,14 +21,14 @@ Dim lrFlow
 Dim termDt As Date
 
 For perCount = 0 To periods
-        For empCount = 0 To lsEmp.ListRows.count * pctChange
-            Set lrFlow = lsEmp.ListRows(Int(lsEmp.ListRows.count * Rnd + 1))
+        For empCount = 0 To lsEmp.ListRows.Count * pctChange
+            Set lrFlow = lsEmp.ListRows(MyRand(1, lsEmp.ListRows.Count))
             With lrFlow
                 'assign a termination date starts from startdate tp June, and a SD of 90 days
                 termDt = Int(WorksheetFunction.Norm_Inv(Rnd, dtStart + 180 + (perCount * 365.25), 90))
                 If termDt > .Range(1, lsEmp.ListColumns("EngDt").Index) Then
                     .Range(1, lsEmp.ListColumns("TermDt").Index) = termDt
-                    Call AddAction(90 + Round(Rnd()), .Range(1, lsEmp.ListColumns("EmpID").Index), termDt)
+                    Call AddAction(MyRand(90, 95), .Range(1, lsEmp.ListColumns("EmpID").Index), termDt)
                 End If
             End With
             EmpCreation.MakeEmp WorksheetFunction.Max(lsEmp.ListColumns("EmpID").DataBodyRange.Value2) + 1, WorksheetFunction.Max(dtStart, Int(WorksheetFunction.Norm_Inv(Rnd, dtStart + 180 + (perCount * 365.25), 90)))
@@ -46,8 +46,8 @@ Dim J As Long
 Dim perfLr As ListRow
 Dim empLr As ListRow
 
-totEmp = lsEmp.ListRows.count
-ReDim arrPerf(lsEmp.ListRows.count - 1)
+totEmp = lsEmp.ListRows.Count
+ReDim arrPerf(lsEmp.ListRows.Count - 1)
 
 For empCount = 0 To totEmp
     Select Case empCount
@@ -143,3 +143,13 @@ Sub test()
 Call CheckPromotion(2011)
 End Sub
 
+Sub SetPayRate()
+Dim lrEmp As ListRow
+Dim intMaxYear As Integer
+intMaxYear = UF.spn_StartYear.Value
+
+For Each lrEmp In lsEmp.ListRows
+    lrEmp.Range(1, lsEmp.ListColumns("PayRate").Index).Value2 = Int(100 / lrEmp.Range(1, lsEmp.ListColumns("Level").Index).Value2) - (intMaxYear - CInt(Right(lrEmp.Range(1, lsEmp.ListColumns("engDt").Index).Value2, 4)))
+    
+Next lrEmp
+End Sub

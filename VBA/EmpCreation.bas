@@ -5,10 +5,10 @@ Sub MakeEmp(id As Long, Optional EngDt As Date)
 Dim lrEmp As ListRow
 
 Dim depID As Byte
-depID = Int((DepCoutn) * Rnd + 1)
+depID = MyRand(1, DepCount)
   
 Dim GenderID As Byte
-GenderID = Round(Rnd(), 0)
+GenderID = MyRand
 
 'Dim EngDt As Date
 If EngDt = 0 Then EngDt = WorksheetFunction.Max(dtStart, Int(WorksheetFunction.Norm_Inv(Rnd, dtStart, 365)))
@@ -40,22 +40,22 @@ End If
         .Range(1, lsEmp.ListColumns("GenderID").Index) = GenderID
         .Range(1, lsEmp.ListColumns("EmpName").Index) = EmpName(GenderID)
         .Range(1, lsEmp.ListColumns("DepID").Index) = depID
-        .Range(1, lsEmp.ListColumns("RaceID").Index) = Int(5 * Rnd + 1)
+        .Range(1, lsEmp.ListColumns("RaceID").Index) = MyRand(1, 5)
         .Range(1, lsEmp.ListColumns("EngDt").Index) = EngDt
         .Range(1, lsEmp.ListColumns("DOB").Index) = DOB
         .Range(1, lsEmp.ListColumns("MgrID").Index) = MgrID
     End With
 
-    Call ActionCreation.AddAction(10, id, EngDt)
+    Call ActionCreation.AddAction(MyRand(10, 15), id, EngDt)
 End Sub
 
 Function EmpName(GenderID As Byte) As String
 Dim strName As String
 
-strName = lsLName.ListRows(Int((LNameCoutn) * Rnd + 1)).Range.Value2
+strName = lsLName.ListRows(MyRand(1, LNameCoutn)).Range.Value2
 strName = strName & ", "
-strName = strName & lsFName.ListRows(Int((FNameCoutn) * Rnd + 1)).Range(1, GenderID + 1).Value2
-strName = strName & " " & Chr(Int((90 - 65 + 1) * Rnd + 65))
+strName = strName & lsFName.ListRows(MyRand(1, FNameCoutn)).Range(1, GenderID + 1).Value2 'Int((FNameCoutn) * Rnd + 1)).Range(1, GenderID + 1).Value2
+strName = strName & " " & Chr(MyRand(65, 90)) ' Int((90 - 65 + 1) * Rnd + 65))
 EmpName = strName
 End Function
 
